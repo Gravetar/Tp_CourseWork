@@ -46,9 +46,7 @@ namespace Tp_CourseWork.Controllers
                     ));
             }
 
-            response.response = localities;
-
-            response.status = "OK";
+            response = localities;
 
             string respStr = response.ToString();
 
