@@ -4,6 +4,8 @@ using System;
 using System.Xml.Linq;
 using Tp_CourseWork.Repositories;
 
+using MathNet.Numerics.Statistics;
+
 
 namespace Tp_CourseWork.Controllers
 {
@@ -25,13 +27,12 @@ namespace Tp_CourseWork.Controllers
 
         //-----------------------------ЗАПРОСЫ-----------------------------
         /// <summary>
-        /// Получить всех пользователей
+        /// Получить все локации
         /// </summary>
         [HttpGet("GetLocalities")]
         public IActionResult GetUsers()
         {
             dynamic localities = new JArray();
-            dynamic response = new JObject();
 
             var ForeachLocalities = _repo.GetLocalities();
             foreach (var l in ForeachLocalities)
@@ -46,9 +47,22 @@ namespace Tp_CourseWork.Controllers
                     ));
             }
 
-            response = localities;
+            string respStr = localities.ToString();
 
-            string respStr = response.ToString();
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Получить медиану бюджета
+        /// </summary>
+        [HttpGet("GetMedianBudget")]
+        public IActionResult GetMedianBudget()
+        {
+            var ForeachLocalities = _repo.GetBudgets();
+
+            var str = Statistics.Median(ForeachLocalities);
+
+            string respStr = str.ToString();
 
             return Content(respStr);
         }
