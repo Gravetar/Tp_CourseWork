@@ -30,7 +30,7 @@ namespace Tp_CourseWork.Controllers
         /// Получить все локации
         /// </summary>
         [HttpGet("GetLocalities")]
-        public IActionResult GetUsers()
+        public IActionResult GetLocalities()
         {
             dynamic localities = new JArray();
 

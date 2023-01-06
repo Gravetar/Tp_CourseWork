@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using Tp_CourseWork.GofComand;
 using Tp_CourseWork.Models;
 
 namespace Tp_CourseWork.Controllers
@@ -11,7 +12,7 @@ namespace Tp_CourseWork.Controllers
         string Baseurl = "https://localhost:7105/";
         public async Task<ActionResult> Index()
         {
-            List<Locality> EmpInfo = new List<Locality>();
+            List<Locality> LocInfo = new List<Locality>();
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -19,19 +20,49 @@ namespace Tp_CourseWork.Controllers
                 client.DefaultRequestHeaders.Clear();
                 //Define request data format
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+                //Sending request to find web api REST service resource GetLocalities using HttpClient
                 HttpResponseMessage Res = await client.GetAsync("api/GetLocalities");
                 //Checking the response is successful or not which is sent using HttpClient
                 if (Res.IsSuccessStatusCode)
                 {
                     //Storing the response details recieved from web api
-                    var EmpResponse = Res.Content.ReadAsStringAsync().Result;
-                    //Deserializing the response recieved from web api and storing into the Employee list
-                    EmpInfo = JsonConvert.DeserializeObject<List<Locality>>(EmpResponse);
+                    var LocResponse = Res.Content.ReadAsStringAsync().Result;
+                    //Deserializing the response recieved from web api and storing into the Localities list
+                    LocInfo = JsonConvert.DeserializeObject<List<Locality>>(LocResponse);
                 }
-                //returning the employee list to view
-                return View(EmpInfo);
+                //returning the Localities list to view
+                return View(LocInfo);
             }
         }
     }
+
+    //public class HomeController : Controller
+    //{
+    //    //Hosted web API REST Service base url
+    //    string Baseurl = "https://localhost:7105/";
+    //    public async Task<ActionResult> Index()
+    //    {
+    //        List<Locality> LocInfo = new List<Locality>();
+    //        using (var client = new HttpClient())
+    //        {
+    //            //Passing service base url
+    //            client.BaseAddress = new Uri(Baseurl);
+    //            client.DefaultRequestHeaders.Clear();
+    //            //Define request data format
+    //            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    //            //Sending request to find web api REST service resource GetLocalities using HttpClient
+    //            HttpResponseMessage Res = await client.GetAsync("api/GetLocalities");
+    //            //Checking the response is successful or not which is sent using HttpClient
+    //            if (Res.IsSuccessStatusCode)
+    //            {
+    //                //Storing the response details recieved from web api
+    //                var LocResponse = Res.Content.ReadAsStringAsync().Result;
+    //                //Deserializing the response recieved from web api and storing into the Localities list
+    //                LocInfo = JsonConvert.DeserializeObject<List<Locality>>(LocResponse);
+    //            }
+    //            //returning the Localities list to view
+    //            return View(LocInfo);
+    //        }
+    //    }
+    //}
 }
