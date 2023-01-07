@@ -9,7 +9,7 @@ namespace Tp_CourseWork.DB
     {
         public DbSet<Locality> Localities { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options = null) : base(options)
         {
             Database.EnsureCreated();
         }
