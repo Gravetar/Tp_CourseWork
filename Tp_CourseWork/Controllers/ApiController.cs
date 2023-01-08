@@ -41,6 +41,32 @@ namespace Tp_CourseWork.Controllers
                     new JProperty("id", l.id),
                     new JProperty("name", l.Name),
                     new JProperty("type", l.Type),
+                    new JProperty("numberresidants", l.NumberResidants),
+                    new JProperty("budget", l.Budget),
+                    new JProperty("mayor", l.Mayor)
+                    ));
+            }
+
+            string respStr = localities.ToString();
+
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Получить все локации по фио мера
+        /// </summary>
+        [HttpGet("GetLocalitiesByMayor")]
+        public IActionResult GetLocalitiesByMajor([FromQuery(Name = "mayor")] string mayor)
+        {
+            dynamic localities = new JArray();
+
+            var ForeachLocalities = _repo.GetLocalitiesByMayor(mayor);
+            foreach (var l in ForeachLocalities)
+            {
+                localities.Add(new JObject(
+                    new JProperty("id", l.id),
+                    new JProperty("name", l.Name),
+                    new JProperty("type", l.Type),
                     new JProperty("number_residants", l.NumberResidants),
                     new JProperty("budget", l.Budget),
                     new JProperty("mayor", l.Mayor)
@@ -61,6 +87,51 @@ namespace Tp_CourseWork.Controllers
             var ForeachLocalities = _repo.GetBudgets();
 
             var str = Statistics.Median(ForeachLocalities);
+
+            string respStr = str.ToString();
+
+            return Content(respStr);
+        }
+
+        // <summary>
+        /// Получить среднее бюджета
+        /// </summary>
+        [HttpGet("GetMeanBudget")]
+        public IActionResult GetMeanBudget()
+        {
+            var ForeachLocalities = _repo.GetBudgets();
+
+            var str = Statistics.Mean(ForeachLocalities);
+
+            string respStr = str.ToString();
+
+            return Content(respStr);
+        }
+
+        // <summary>
+        /// Получить Максимальный бюджета
+        /// </summary>
+        [HttpGet("GetMaxBudget")]
+        public IActionResult GetMaxBudget()
+        {
+            var ForeachLocalities = _repo.GetBudgets();
+
+            var str = Statistics.Maximum(ForeachLocalities);
+
+            string respStr = str.ToString();
+
+            return Content(respStr);
+        }
+
+        // <summary>
+        /// Получить минимум бюджета
+        /// </summary>
+        [HttpGet("GetMinBudget")]
+        public IActionResult GetMinBudget()
+        {
+            var ForeachLocalities = _repo.GetBudgets();
+
+            var str = Statistics.Minimum(ForeachLocalities);
 
             string respStr = str.ToString();
 

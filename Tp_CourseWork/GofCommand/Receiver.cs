@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Windows.Input;
 using Tp_CourseWork.DB;
 using Tp_CourseWork.GoFIterator;
 using Tp_CourseWork.Models;
@@ -10,6 +11,22 @@ namespace Tp_CourseWork.GofComand
         public object GetLocalities(ApplicationContext ctx)
         {
             return ctx.Localities.ToList();
+        }
+    }
+
+    public class ReceiverGetLocalitiesByMajor
+    {
+        public string Mayor;
+
+        public ReceiverGetLocalitiesByMajor(string mayor)
+        {
+            Mayor = mayor;
+        }
+
+        public object GetLocalitiesByMayor(ApplicationContext ctx)
+        {
+            var localities = ctx.Localities.Where(l => l.Mayor == Mayor).ToList();
+            return localities;
         }
     }
 

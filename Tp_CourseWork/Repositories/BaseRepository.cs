@@ -25,6 +25,16 @@ namespace Tp_CourseWork.Repositories
         }
 
         /// <summary>
+        /// Получить всю информаци по всем локациям
+        /// </summary>
+        /// <returns>Лист локаций</returns>
+        public List<Locality> GetLocalitiesByMayor(string Mayor)
+        {
+            _commands["GetLocalitiesByMajor"] = new GetLocalitiesByMajorCommand(new ReceiverGetLocalitiesByMajor(Mayor));
+            return ExcuteCommand("GetLocalitiesByMajor") as List<Locality>;
+        }
+
+        /// <summary>
         /// Получть бюджеты
         /// </summary>
         /// <returns>Массив бюджетов</returns>
@@ -38,6 +48,7 @@ namespace Tp_CourseWork.Repositories
             _commands = new Dictionary<string, ICommand>();
 
             _commands.Add("GetLocalities", new GetLocalitiesCommand(new ReceiverGetLocalities()));
+            _commands.Add("GetLocalitiesByMajor", new GetLocalitiesByMajorCommand(new ReceiverGetLocalitiesByMajor("")));
             _commands.Add("GetBudgets", new GetBudgetsCommand(new ReceiverGetBudgets()));
         }
 

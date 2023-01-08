@@ -16,6 +16,19 @@ namespace Tp_CourseWork.GofComand
         }
     }
 
+    public class GetLocalitiesByMajorCommand : ICommand
+    {
+        ReceiverGetLocalitiesByMajor receiver;
+        public GetLocalitiesByMajorCommand(ReceiverGetLocalitiesByMajor r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.GetLocalitiesByMayor(ctx);
+        }
+    }
+
     public class GetBudgetsCommand : ICommand
     {
         ReceiverGetBudgets receiver;

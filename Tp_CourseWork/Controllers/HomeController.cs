@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using Tp_CourseWork.GofComand;
 using Tp_CourseWork.Models;
+using Tp_CourseWork.Models.ViewModels;
 
 namespace Tp_CourseWork.Controllers
 {
@@ -12,7 +14,9 @@ namespace Tp_CourseWork.Controllers
         string Baseurl = "https://localhost:7105/";
         public async Task<ActionResult> Index()
         {
+
             List<Locality> LocInfo = new List<Locality>();
+            List<string> Mayors = new List<string>();
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -30,8 +34,22 @@ namespace Tp_CourseWork.Controllers
                     //Deserializing the response recieved from web api and storing into the Localities list
                     LocInfo = JsonConvert.DeserializeObject<List<Locality>>(LocResponse);
                 }
+
+                for (int i = 0; i < LocInfo.Count; i++)
+                {
+                    Mayors.Add(LocInfo[i].Mayor);
+                }
+
+                Mayors = Mayors.Distinct().ToList();
+
+                var model = new LocalitiesWithUniqMayor
+                {
+                    Localities = LocInfo,
+                    Mayors = Mayors
+                };
+
                 //returning the Localities list to view
-                return View(LocInfo);
+                return View(model);
             }
         }
     }
