@@ -1,0 +1,33 @@
+﻿@model Tp_CourseWork.Models.Locality
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            @Html.LabelFor(model => model.Name)
+            <p>@Html.EditorFor(model => model.Name)</p>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Type)
+            <p>@Html.EditorFor(model => model.Type)</p>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.NumberResidants)
+            <p>@Html.EditorFor(model => model.NumberResidants)</p>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Budget)
+            <p>@Html.EditorFor(model => model.Budget)</p>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.Mayor)
+            <p>@Html.EditorFor(model => model.Mayor)</p>
+        </div>
+        <p><input type="submit" value="Сохранить" /></p>
+    }
+    @Html.ActionLink("Назад", "Index", "Home")
+</div>

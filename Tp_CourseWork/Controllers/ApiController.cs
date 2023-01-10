@@ -5,7 +5,8 @@ using System.Xml.Linq;
 using Tp_CourseWork.Repositories;
 
 using MathNet.Numerics.Statistics;
-
+using static Azure.Core.HttpHeader;
+using Tp_CourseWork.Models;
 
 namespace Tp_CourseWork.Controllers
 {
@@ -48,6 +49,106 @@ namespace Tp_CourseWork.Controllers
             }
 
             string respStr = localities.ToString();
+
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Получить статистику по бюджетам
+        /// </summary>
+        [HttpGet("GetStatisticBudgets")]
+        public IActionResult GetLStatisticBudgets()
+        {
+            var StatisticFromResult = _repo.GetLStatisticBudgets(_repo.GetBudgets());
+            var statistic = new JObject(
+                new JProperty("Median", StatisticFromResult.Median),
+                new JProperty("Mean", StatisticFromResult.Mean),
+                new JProperty("Max", StatisticFromResult.Max),
+                new JProperty("Min", StatisticFromResult.Min)
+                );
+
+            string respStr = statistic.ToString();
+
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Получить все локации
+        /// </summary>
+        [HttpGet("GetLocalitiyById")]
+        public IActionResult GetLocalitiyById([FromQuery(Name = "id")] int id )
+        {
+            dynamic resp = new JObject();
+
+            var l = _repo.GetLocalityById(id);
+            if (l != null)
+            {
+                resp = new JObject(
+                    new JProperty("id", l.id),
+                    new JProperty("name", l.Name),
+                    new JProperty("type", l.Type),
+                    new JProperty("numberresidants", l.NumberResidants),
+                    new JProperty("budget", l.Budget),
+                    new JProperty("mayor", l.Mayor)
+                    );
+            }
+
+            string respStr = resp.ToString();
+
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Создать локацию
+        /// </summary>
+        [HttpPost("CreateLocality")]
+        public IActionResult CreateLocality([FromBody] Locality locality)
+        {
+            string name = locality.Name;
+            string type = locality.Type;
+            int numberresidants = locality.NumberResidants;
+            int budget = locality.Budget;
+            string mayor = locality.Mayor;
+
+            Locality loc = new Locality();
+
+            loc.Name = name;
+            loc.Type = type;
+            loc.NumberResidants = numberresidants;
+            loc.Budget = budget;
+            loc.Mayor = mayor;
+
+            bool res = _repo.CreateLocality(loc);
+
+            string respStr = res.ToString();
+
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Редактировать локацию
+        /// </summary>
+        [HttpPost("UpdateLocality")]
+        public IActionResult UpdateLocality([FromBody] Locality locality)
+        {
+
+            bool res = _repo.UpdateLocality(locality);
+
+            string respStr = res.ToString();
+
+            return Content(respStr);
+        }
+
+        /// <summary>
+        /// Удалить локацию по айди
+        /// </summary>
+        [HttpPost("DeleteLocality")]
+        public IActionResult DeleteLocality([FromBody] int id)
+        {
+
+            bool res = _repo.DeleteLocality(id);
+
+            string respStr = res.ToString();
 
             return Content(respStr);
         }

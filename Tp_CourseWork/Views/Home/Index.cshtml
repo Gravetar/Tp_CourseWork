@@ -2,21 +2,46 @@
 @{
     ViewBag.Title = "LOCALITY";
 }
-<div>
-    <form method="post">
-
-        <p>
-            <label for="phone">Выберите модель:</label>
-            <select name="phone">
-                @foreach (var item in Model.Mayors)
-                {
-                    <option value=@item>@item</option>
-                }
-            </select>
-        </p>
-
-        <p>
-            <input type="submit" value="Отправить" />
-        </p>
-    </form>
-</div>
+<html>
+<head>
+    <title></title>
+    <link href='@Url.Content("~/wwwroot/lib/jqueryui/themes/base/jquery-ui.css")' rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2>Список Локаций</h2>
+    <table border="1">
+    @foreach (var c in Model.Localities)
+    {
+        <tr><td>@c.Name</td><td>
+        @Html.ActionLink("Смотреть", "Details", "Home", new { id = c.id }) | 
+        @Html.ActionLink("Изменить", "Update", "Home", new { id = c.id }) |
+        @Html.ActionLink("Удалить", "Delete", "Home", new { id = c.id }) </td></tr>
+    }
+    </table>
+    <p> @Html.ActionLink("Добавить", "Create", "Home")</p>
+    <p> @Html.ActionLink("Посмотреть статистические показатели бюджета по всем локациям", "Statistic", "Home")</p>
+    <p> @Html.ActionLink("Посмотреть локации в виде таблицы", "LocalityByTable", "Home")</p>
+    @*<script src='@Url.Content("D:/University/5_SAPR/TPR/Tp_CourseWork/Tp_CourseWork/wwwroot/lib/jqueryui/jquery-ui.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery-ui.min.js")' type="text/javascript"></script>
+    <script>
+    $(document).ready(function () {
+ 
+        $.ajaxSetup({ cache: false });
+ 
+        $(".viewDialog").on("click", function (e) {
+            e.preventDefault();
+ 
+            $("<div></div>")
+                .addClass("dialog")
+                .appendTo("body")
+                .dialog({
+                    title: $(this).attr("data-dialog-title"),
+                     close: function () { $(this).remove() },
+                    modal: true
+                })
+                .load(this.href);
+        });
+    });
+    </script>*@
+</body>
+</html>

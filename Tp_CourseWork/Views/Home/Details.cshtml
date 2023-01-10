@@ -1,0 +1,10 @@
+﻿@model Tp_CourseWork.Models.Locality
+<div>
+    <h3>Id:  @Html.DisplayFor(m => m.id)</h3>
+    <p>Название: @Html.DisplayFor(m => m.Name)</p>
+    <p>Тип: @Html.DisplayFor(m => m.Type)</p>
+    <p>Количество жителей: @Html.DisplayFor(m => m.NumberResidants)</p>
+    <p>Бюджет: @Html.DisplayFor(m => m.Budget)</p>
+    <p>Мэр: @Html.DisplayFor(m => m.Mayor)</p>
+    @Html.ActionLink("Назад", "Index", "Home")
+</div>

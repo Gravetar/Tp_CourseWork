@@ -1,0 +1,8 @@
+﻿@model Tp_CourseWork.Models.ViewModels.Statistic
+<div>
+    <p>MedianBudgets:  @Html.DisplayFor(m => m.Median)</p>
+    <p>MeanBudgets: @Html.DisplayFor(m => m.Mean)</p>
+    <p>MaxBudgets: @Html.DisplayFor(m => m.Max)</p>
+    <p>MinBudgets: @Html.DisplayFor(m => m.Min)</p>
+    @Html.ActionLink("Назад", "Index", "Home")
+</div>

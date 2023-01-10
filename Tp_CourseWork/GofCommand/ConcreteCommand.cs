@@ -41,4 +41,69 @@ namespace Tp_CourseWork.GofComand
             return receiver.GetBudgets(ctx);
         }
     }
+
+    public class GetLocalityByIdCommand : ICommand
+    {
+        ReceiverGetLocalityById receiver;
+        public GetLocalityByIdCommand(ReceiverGetLocalityById r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.GetLocalityById(ctx);
+        }
+    }
+
+    public class CreateLocalityCommand : ICommand
+    {
+        ReceiverCreateLocality receiver;
+        public CreateLocalityCommand(ReceiverCreateLocality r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.CreateLocality(ctx);
+        }
+    }
+
+    public class UpdateLocalityCommand : ICommand
+    {
+        ReceiverUpdateLocality receiver;
+        public UpdateLocalityCommand(ReceiverUpdateLocality r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.UpdateLocality(ctx);
+        }
+    }
+
+    public class DeleteLocalityCommand : ICommand
+    {
+        ReceiverDeleteLocality receiver;
+        public DeleteLocalityCommand(ReceiverDeleteLocality r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.DeleteLocality(ctx);
+        }
+    }
+
+    public class GetLStatisticBudgetsCommand : ICommand
+    {
+        ReceiverGetLStatisticBudgets receiver;
+        public GetLStatisticBudgetsCommand(ReceiverGetLStatisticBudgets r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.GetLStatisticBudgets();
+        }
+    }
 }

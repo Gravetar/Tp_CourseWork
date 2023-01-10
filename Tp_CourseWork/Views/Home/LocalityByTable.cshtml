@@ -1,0 +1,15 @@
+﻿@model List<Tp_CourseWork.Models.Locality>
+
+<h3>В списке @Model.Count элемента(ов)</h3>
+<table class="table" border="1">
+    <thead>
+        <tr><th>Id</th><th>Название</th><th>Тип</th><th>Количество жителей</th><th>Бюджет</th><th>Мэр</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var loc in Model)
+        {
+            <tr><td>@loc.id</td><td>@loc.Name</td><td>@loc.Type</td><td>@loc.NumberResidants</td><td>@loc.Budget</td><td>@loc.Mayor</td></tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Назад", "Index", "Home")
