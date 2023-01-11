@@ -59,4 +59,31 @@ namespace Tp_CourseWork.GoFIterator
             _items = new List<double>(list);
         }
     }
+    public class NumberResidantsAggregate : Aggregate
+    {
+        private List<double> _items = new List<double>();
+
+        public override Iterator CreateIterator()
+        {
+            return new NumberResidantsIterator(this);
+        }
+
+        // Gets item count
+        public int Count
+        {
+            get { return _items.Count; }
+        }
+
+        // Indexer
+        public double this[int index]
+        {
+            get { return _items[index]; }
+            set { _items[index] = value; }
+        }
+
+        public void FillItems(List<double> list)
+        {
+            _items = new List<double>(list);
+        }
+    }
 }

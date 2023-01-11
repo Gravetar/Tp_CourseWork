@@ -1,8 +1,20 @@
-﻿@model Tp_CourseWork.Models.ViewModels.Statistic
+﻿@model List<Tp_CourseWork.Models.ViewModels.Statistic>
 <div>
-    <p>MedianBudgets:  @Html.DisplayFor(m => m.Median)</p>
+@*    <p>MedianBudgets:  @Html.DisplayFor(m => m.Median)</p>
     <p>MeanBudgets: @Html.DisplayFor(m => m.Mean)</p>
     <p>MaxBudgets: @Html.DisplayFor(m => m.Max)</p>
-    <p>MinBudgets: @Html.DisplayFor(m => m.Min)</p>
+    <p>MinBudgets: @Html.DisplayFor(m => m.Min)</p>*@
+
+    <table class="table" border="1">
+        <thead>
+            <tr><th>Поле</th><th>Median</th><th>Mean</th><th>Max</th><th>Min</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr><td>@s.Name</td><td>@s.Median</td><td>@s.Mean</td><td>@s.Max</td><td>@s.Min</td></tr>
+            }
+        </tbody>
+    </table>
     @Html.ActionLink("Назад", "Index", "Home")
 </div>

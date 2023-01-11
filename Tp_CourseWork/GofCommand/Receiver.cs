@@ -16,23 +16,34 @@ namespace Tp_CourseWork.GofComand
         }
     }
 
-    public class ReceiverGetLStatisticBudgets
+    public class ReceiverGetStatistic
     {
         public double[]? Budgets;
+        public double[]? NumberResidants;
 
-        public ReceiverGetLStatisticBudgets(double[]? budgets = null)
+        public ReceiverGetStatistic(double[]? budgets = null, double[]? numberResidants = null)
         {
             Budgets = budgets;
+            NumberResidants = numberResidants;
         }
 
-        public object GetLStatisticBudgets()
+        public object GetStatistic()
         {
-            Statistic res = new Statistic();
+            List<Statistic> res = new List<Statistic>();
 
-            res.Median = Statistics.Median(Budgets);
-            res.Mean = Statistics.Mean(Budgets);
-            res.Max = Statistics.Maximum(Budgets);
-            res.Min = Statistics.Minimum(Budgets);
+            res.Add(new Statistic { 
+                Name = "Бюджет",
+                Median = Statistics.Median(Budgets), 
+                Mean = Statistics.Mean(Budgets), 
+                Max = Statistics.Maximum(Budgets), 
+                Min = Statistics.Minimum(Budgets) });
+
+            res.Add(new Statistic {
+                Name = "Население",
+                Median = Statistics.Median(NumberResidants), 
+                Mean = Statistics.Mean(NumberResidants), 
+                Max = Statistics.Maximum(NumberResidants), 
+                Min = Statistics.Minimum(NumberResidants) });
 
             return res;
         }
@@ -63,7 +74,7 @@ namespace Tp_CourseWork.GofComand
             BudgetsAggregate la = new BudgetsAggregate();
 
             var selectedBudgets = (from b in ctx.Localities
-                                   select Convert.ToDouble(b.Budget)).ToList();
+                                   select Convert.ToDouble(b.BudgetMlrd)).ToList();
 
             la.FillItems(selectedBudgets);
 
@@ -80,6 +91,34 @@ namespace Tp_CourseWork.GofComand
             return Temp.ToArray();
         }
     }
+
+    public class ReceiverGetNumberResidants
+    {
+        public object GetNumberResidants(ApplicationContext ctx)
+        {
+            List<double> Temp = new List<double>();
+
+            NumberResidantsAggregate la = new NumberResidantsAggregate();
+
+            var selectedNumbers = (from b in ctx.Localities
+                                   select Convert.ToDouble(b.NumberResidantsTh)).ToList();
+
+            la.FillItems(selectedNumbers);
+
+            Iterator i = la.CreateIterator();
+
+            object item = i.First();
+
+            while (item != null)
+            {
+                Temp.Add(Convert.ToDouble(item));
+                item = i.Next();
+            }
+
+            return Temp.ToArray();
+        }
+    }
+
     public class ReceiverGetLocalityById
     {
         public int Id;

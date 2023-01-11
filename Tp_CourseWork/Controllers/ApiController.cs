@@ -43,8 +43,8 @@ namespace Tp_CourseWork.Controllers
                     new JProperty("id", l.id),
                     new JProperty("name", l.Name),
                     new JProperty("type", l.Type),
-                    new JProperty("numberresidants", l.NumberResidants),
-                    new JProperty("budget", l.Budget),
+                    new JProperty("numberresidantsth", l.NumberResidantsTh),
+                    new JProperty("budgetmlrd", l.BudgetMlrd),
                     new JProperty("mayor", l.Mayor)
                     ));
             }
@@ -57,18 +57,24 @@ namespace Tp_CourseWork.Controllers
         /// <summary>
         /// Получить статистику по бюджетам
         /// </summary>
-        [HttpGet("GetStatisticBudgets")]
-        public IActionResult GetLStatisticBudgets()
+        [HttpGet("GetStatistic")]
+        public IActionResult GetLStatistic()
         {
-            var StatisticFromResult = _repo.GetLStatisticBudgets(_repo.GetBudgets());
-            var statistic = new JObject(
-                new JProperty("Median", StatisticFromResult.Median),
-                new JProperty("Mean", StatisticFromResult.Mean),
-                new JProperty("Max", StatisticFromResult.Max),
-                new JProperty("Min", StatisticFromResult.Min)
-                );
+            dynamic Statistics = new JArray();
 
-            string respStr = statistic.ToString();
+            var ForeachStatistics = _repo.GetStatistic(_repo.GetBudgets(), _repo.GetNumberResidants());
+            foreach (var l in ForeachStatistics)
+            {
+                Statistics.Add(new JObject(
+                        new JProperty("Name", l.Name),
+                        new JProperty("Median", l.Median),
+                        new JProperty("Mean", l.Mean),
+                        new JProperty("Max", l.Max),
+                        new JProperty("Min", l.Min)
+                    ));
+            }
+
+            string respStr = Statistics.ToString();
 
             return Content(respStr);
         }
@@ -88,8 +94,8 @@ namespace Tp_CourseWork.Controllers
                     new JProperty("id", l.id),
                     new JProperty("name", l.Name),
                     new JProperty("type", l.Type),
-                    new JProperty("numberresidants", l.NumberResidants),
-                    new JProperty("budget", l.Budget),
+                    new JProperty("numberresidantsth", l.NumberResidantsTh),
+                    new JProperty("budgetmlrd", l.BudgetMlrd),
                     new JProperty("mayor", l.Mayor)
                     );
             }
@@ -107,16 +113,16 @@ namespace Tp_CourseWork.Controllers
         {
             string name = locality.Name;
             string type = locality.Type;
-            int numberresidants = locality.NumberResidants;
-            int budget = locality.Budget;
+            double numberresidants = locality.NumberResidantsTh;
+            double budget = locality.BudgetMlrd;
             string mayor = locality.Mayor;
 
             Locality loc = new Locality();
 
             loc.Name = name;
             loc.Type = type;
-            loc.NumberResidants = numberresidants;
-            loc.Budget = budget;
+            loc.NumberResidantsTh = numberresidants;
+            loc.BudgetMlrd = budget;
             loc.Mayor = mayor;
 
             bool res = _repo.CreateLocality(loc);
@@ -175,8 +181,8 @@ namespace Tp_CourseWork.Controllers
                     new JProperty("id", l.id),
                     new JProperty("name", l.Name),
                     new JProperty("type", l.Type),
-                    new JProperty("number_residants", l.NumberResidants),
-                    new JProperty("budget", l.Budget),
+                    new JProperty("numberresidantsth", l.NumberResidantsTh),
+                    new JProperty("budgetmlrd", l.BudgetMlrd),
                     new JProperty("mayor", l.Mayor)
                     ));
             }

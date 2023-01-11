@@ -3,12 +3,12 @@
 <h3>В списке @Model.Count элемента(ов)</h3>
 <table class="table" border="1">
     <thead>
-        <tr><th>Id</th><th>Название</th><th>Тип</th><th>Количество жителей</th><th>Бюджет</th><th>Мэр</th></tr>
+        <tr><th>Id</th><th>Название</th><th>Тип</th><th>Население, тыс. чел.</th><th>Бюджет, млрд. руб.</th><th>Мэр</th></tr>
     </thead>
     <tbody>
         @foreach (var loc in Model)
         {
-            <tr><td>@loc.id</td><td>@loc.Name</td><td>@loc.Type</td><td>@loc.NumberResidants</td><td>@loc.Budget</td><td>@loc.Mayor</td></tr>
+            <tr><td>@loc.id</td><td>@loc.Name</td><td>@loc.Type</td><td>@loc.NumberResidantsTh</td><td>@loc.BudgetMlrd</td><td>@loc.Mayor</td></tr>
         }
     </tbody>
 </table>

@@ -7,7 +7,7 @@ namespace Tp_CourseWork.Repositories
     {
         List<Locality> GetLocalities();
         double[] GetBudgets();
-        Statistic GetLStatisticBudgets(double[]? budgets);
+        List<Statistic> GetStatistic(double[]? budgets, double[]? numberResidants);
         bool DeleteLocality(int id);
         bool UpdateLocality(Locality loc);
         bool CreateLocality(Locality loc);

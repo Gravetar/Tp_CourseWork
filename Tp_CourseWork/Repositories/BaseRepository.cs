@@ -92,10 +92,10 @@ namespace Tp_CourseWork.Repositories
         /// <summary>
         /// Получить статистические показатели бюджета
         /// </summary>
-        public Statistic GetLStatisticBudgets(double[]? budgets)
+        public List<Statistic> GetStatistic(double[]? budgets, double[]? numberResidants)
         {
-            _commands["GetLStatisticBudgets"] = new GetLStatisticBudgetsCommand(new ReceiverGetLStatisticBudgets(budgets));
-            return ExcuteCommand("GetLStatisticBudgets") as Statistic;
+            _commands["GetStatistic"] = new GetStatisticCommand(new ReceiverGetStatistic(budgets, numberResidants));
+            return ExcuteCommand("GetStatistic") as List<Statistic>;
         }
 
         /// <summary>
@@ -107,6 +107,15 @@ namespace Tp_CourseWork.Repositories
             return ExcuteCommand("GetBudgets") as double[];
         }
 
+        /// <summary>
+        /// Получть бюджеты
+        /// </summary>
+        /// <returns>Массив бюджетов</returns>
+        public double[] GetNumberResidants()
+        {
+            return ExcuteCommand("GetNumberResidants") as double[];
+        }
+
         private void FillCommands()
         {
             _commands = new Dictionary<string, ICommand>();
@@ -115,10 +124,11 @@ namespace Tp_CourseWork.Repositories
             _commands.Add("GetLocalitiesByMajor", new GetLocalitiesByMajorCommand(new ReceiverGetLocalitiesByMajor("")));
             _commands.Add("GetLocalityById", new GetLocalityByIdCommand(new ReceiverGetLocalityById(0)));
             _commands.Add("GetBudgets", new GetBudgetsCommand(new ReceiverGetBudgets()));
+            _commands.Add("GetNumberResidants", new GetNumberResidantsCommand(new ReceiverGetNumberResidants()));
             _commands.Add("CreateLocality", new CreateLocalityCommand(new ReceiverCreateLocality()));
             _commands.Add("UpdateLocality", new UpdateLocalityCommand(new ReceiverUpdateLocality()));
             _commands.Add("DeleteLocality", new DeleteLocalityCommand(new ReceiverDeleteLocality()));
-            _commands.Add("GetLStatisticBudgets", new GetLStatisticBudgetsCommand(new ReceiverGetLStatisticBudgets()));
+            _commands.Add("GetStatistic", new GetStatisticCommand(new ReceiverGetStatistic()));
         }
 
         private object ExcuteCommand(string command)

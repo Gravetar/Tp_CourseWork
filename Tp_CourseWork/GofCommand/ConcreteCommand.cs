@@ -42,6 +42,19 @@ namespace Tp_CourseWork.GofComand
         }
     }
 
+    public class GetNumberResidantsCommand : ICommand
+    {
+        ReceiverGetNumberResidants receiver;
+        public GetNumberResidantsCommand(ReceiverGetNumberResidants r)
+        {
+            receiver = r;
+        }
+        public object Execute(ApplicationContext ctx)
+        {
+            return receiver.GetNumberResidants(ctx);
+        }
+    }
+
     public class GetLocalityByIdCommand : ICommand
     {
         ReceiverGetLocalityById receiver;
@@ -94,16 +107,16 @@ namespace Tp_CourseWork.GofComand
         }
     }
 
-    public class GetLStatisticBudgetsCommand : ICommand
+    public class GetStatisticCommand : ICommand
     {
-        ReceiverGetLStatisticBudgets receiver;
-        public GetLStatisticBudgetsCommand(ReceiverGetLStatisticBudgets r)
+        ReceiverGetStatistic receiver;
+        public GetStatisticCommand(ReceiverGetStatistic r)
         {
             receiver = r;
         }
         public object Execute(ApplicationContext ctx)
         {
-            return receiver.GetLStatisticBudgets();
+            return receiver.GetStatistic();
         }
     }
 }

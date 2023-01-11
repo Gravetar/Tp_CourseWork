@@ -89,7 +89,7 @@ namespace TP_CourseWork.Tests
 
             db.Localities.AddRange(GetTestLocalities());
 
-            Locality Tstlocality = new Locality { Name = "Локация", Budget = 100000, Mayor = "Иванов Иван Иванович", NumberResidants = 1000000, Type = "City" };
+            Locality Tstlocality = new Locality { Name = "Локация", BudgetMlrd = 10, Mayor = "Иванов Иван Иванович", NumberResidantsTh = 12, Type = "City" };
 
             db.Localities.Add(Tstlocality);
 
@@ -107,9 +107,9 @@ namespace TP_CourseWork.Tests
         {
             var localities = new List<Locality>
             {
-                new Locality { Name="Волгоград", Budget=100000, Mayor = "Владимир Васильевич Марченко", NumberResidants = 1004763, Type = "City"},
-                new Locality { Name="Волжский", Budget=200000, Mayor = "Игорь Николаевич Воронин", NumberResidants = 321479, Type = "City"},
-                new Locality { Name="Москва", Budget=300000, Mayor = "Сергей Семёнович Собянин", NumberResidants = 13010112, Type = "City"}
+                new Locality { Name="Волгоград", BudgetMlrd=12, Mayor = "Владимир Васильевич Марченко", NumberResidantsTh = 100, Type = "City"},
+                new Locality { Name="Волжский", BudgetMlrd=20, Mayor = "Игорь Николаевич Воронин", NumberResidantsTh = 321, Type = "City"},
+                new Locality { Name="Москва", BudgetMlrd=30, Mayor = "Сергей Семёнович Собянин", NumberResidantsTh = 1301, Type = "City"}
             };
             return localities;
         }
