@@ -7,6 +7,7 @@ using Tp_CourseWork.Repositories;
 using MathNet.Numerics.Statistics;
 using static Azure.Core.HttpHeader;
 using Tp_CourseWork.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Tp_CourseWork.Controllers
 {
@@ -19,7 +20,7 @@ namespace Tp_CourseWork.Controllers
         private readonly ILogger<ApiController> _logger;
         private readonly IConfiguration _config;
 
-        public ApiController(ILogger<ApiController> logger, IConfiguration config, BaseRepository Repo)
+        public ApiController(BaseRepository Repo, ILogger<ApiController> logger= null, IConfiguration config = null)
         {
             _logger = logger; 
             _config = config;
@@ -145,12 +146,18 @@ namespace Tp_CourseWork.Controllers
         [HttpPost("DeleteLocality")]
         public IActionResult DeleteLocality([FromBody] int id)
         {
+            try
+            {
+                bool res = _repo.DeleteLocality(id);
 
-            bool res = _repo.DeleteLocality(id);
+                string respStr = res.ToString();
 
-            string respStr = res.ToString();
-
-            return Content(respStr);
+                return Content(respStr);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>

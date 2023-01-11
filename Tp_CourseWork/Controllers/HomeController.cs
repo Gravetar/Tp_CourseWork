@@ -27,7 +27,7 @@ namespace Tp_CourseWork.Controllers
                 //Define request data format
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //Sending request to find web api REST service resource GetLocalities using HttpClient
-                HttpResponseMessage Res = await client.GetAsync("api/GetLocalities");
+                HttpResponseMessage Res = await client.GetAsync("/api/GetLocalities");
                 //Checking the response is successful or not which is sent using HttpClient
                 if (Res.IsSuccessStatusCode)
                 {
@@ -57,7 +57,7 @@ namespace Tp_CourseWork.Controllers
 
         public async Task<ActionResult> Details(int id)
         {
-            Locality LocInfo = new();
+            Locality LocInfo = null;
             using (var client = new HttpClient())
             {
                 //Passing service base url
@@ -73,6 +73,7 @@ namespace Tp_CourseWork.Controllers
                     //Storing the response details recieved from web api
                     var LocResponse = Res.Content.ReadAsStringAsync().Result;
                     //Deserializing the response recieved from web api and storing into the Localities list
+                    if (LocResponse != "{}")
                     LocInfo = JsonConvert.DeserializeObject<Locality>(LocResponse);
                 }
 

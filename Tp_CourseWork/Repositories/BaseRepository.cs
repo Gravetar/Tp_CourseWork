@@ -3,16 +3,19 @@ using Tp_CourseWork.Models;
 using Microsoft.EntityFrameworkCore;
 using Tp_CourseWork.GofComand;
 using Tp_CourseWork.Models.ViewModels;
+using Tp_CourseWork.Controllers;
 
 namespace Tp_CourseWork.Repositories
-{    public class BaseRepository
+{    public class BaseRepository: IRepository
     {
         public ApplicationContext _ctx;
         private Dictionary<string, ICommand> _commands;
+        private readonly ILogger<BaseRepository> _logger;
 
-        public BaseRepository(ApplicationContext ctx)
+        public BaseRepository(ApplicationContext ctx, ILogger<BaseRepository> logger = null)
         {
             _ctx = ctx;
+            _logger = logger;
             FillCommands();
         }
 
@@ -22,7 +25,14 @@ namespace Tp_CourseWork.Repositories
         /// <returns>Лист локаций</returns>
         public List<Locality> GetLocalities()
         {
-            return ExcuteCommand("GetLocalities") as List<Locality>;
+            try
+            {
+                return ExcuteCommand("GetLocalities") as List<Locality>;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -31,8 +41,15 @@ namespace Tp_CourseWork.Repositories
         /// <returns>Локация</returns>
         public Locality GetLocalityById(int Id)
         {
-            _commands["GetLocalityById"] = new GetLocalityByIdCommand(new ReceiverGetLocalityById(Id));
-            return ExcuteCommand("GetLocalityById") as Locality;
+            try
+            {
+                _commands["GetLocalityById"] = new GetLocalityByIdCommand(new ReceiverGetLocalityById(Id));
+                return ExcuteCommand("GetLocalityById") as Locality;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
