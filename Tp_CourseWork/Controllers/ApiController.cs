@@ -111,19 +111,13 @@ namespace Tp_CourseWork.Controllers
         [HttpPost("CreateLocality")]
         public IActionResult CreateLocality([FromBody] Locality locality)
         {
-            string name = locality.Name;
-            string type = locality.Type;
-            double numberresidants = locality.NumberResidantsTh;
-            double budget = locality.BudgetMlrd;
-            string mayor = locality.Mayor;
-
-            Locality loc = new Locality();
-
-            loc.Name = name;
-            loc.Type = type;
-            loc.NumberResidantsTh = numberresidants;
-            loc.BudgetMlrd = budget;
-            loc.Mayor = mayor;
+            Locality loc = new Locality { 
+                Name = locality.Name,
+                Type = locality.Type,
+                NumberResidantsTh = locality.NumberResidantsTh,
+                BudgetMlrd = locality.BudgetMlrd,
+                Mayor = locality.Mayor
+            };
 
             bool res = _repo.CreateLocality(loc);
 

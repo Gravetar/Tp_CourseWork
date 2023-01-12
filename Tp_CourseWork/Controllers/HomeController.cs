@@ -90,12 +90,7 @@ namespace Tp_CourseWork.Controllers
             List<Statistic> StInfo = new();
             using (var client = new HttpClient())
             {
-                //Passing service base url
-                client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                //Define request data format
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //Sending request to find web api REST service resource GetLocalities using HttpClient
+                OnClient(client);
                 HttpResponseMessage Res = await client.GetAsync("api/GetStatistic");
                 //Checking the response is successful or not which is sent using HttpClient
                 if (Res.IsSuccessStatusCode)
@@ -111,6 +106,13 @@ namespace Tp_CourseWork.Controllers
                 }
                 return View("Index");
             }
+        }
+
+        void OnClient(HttpClient client)
+        {
+            client.BaseAddress = new Uri(Baseurl);
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<ActionResult> LocalityByTable()

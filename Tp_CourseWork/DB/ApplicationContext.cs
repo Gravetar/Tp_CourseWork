@@ -42,7 +42,7 @@ namespace Tp_CourseWork.DB
                 Type = "City",
                 NumberResidantsTh = 443.21,
                 BudgetMlrd = 61.7,
-                Mayor = "Сергей Семёнович Собянин"
+                Mayor = "Михаил Владимирович Развожаев"
             };
             Locality locality4 = new Locality
             {
@@ -60,7 +60,7 @@ namespace Tp_CourseWork.DB
                 Type = "Region",
                 NumberResidantsTh = 4315.70,
                 BudgetMlrd = 296.6,
-                Mayor = "Сергей Семёнович Собянин"
+                Mayor = "Евгений Владимирович Куйвашев"
             };
 
             modelBuilder.Entity<Locality>().HasData(locality1);
