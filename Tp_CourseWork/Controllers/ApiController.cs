@@ -187,63 +187,25 @@ namespace Tp_CourseWork.Controllers
         }
 
         /// <summary>
-        /// Получить медиану бюджета
+        /// Получить бюджеты
         /// </summary>
-        [HttpGet("GetMedianBudget")]
-        public IActionResult GetMedianBudget()
+        [HttpGet("GetBudgets")]
+        public IActionResult GetBudgets()
         {
-            var ForeachLocalities = _repo.GetBudgets();
+            double[] Budgets = _repo.GetBudgets();
 
-            var str = Statistics.Median(ForeachLocalities);
-
-            string respStr = str.ToString();
-
-            return Content(respStr);
+            return Ok(Budgets); // Возвращаем бюджеты как JSON
         }
 
-        // <summary>
-        /// Получить среднее бюджета
+        /// <summary>
+        /// Получить население
         /// </summary>
-        [HttpGet("GetMeanBudget")]
-        public IActionResult GetMeanBudget()
+        [HttpGet("GetResidants")]
+        public IActionResult GetResidants()
         {
-            var ForeachLocalities = _repo.GetBudgets();
+            double[] Budgets = _repo.GetNumberResidants();
 
-            var str = Statistics.Mean(ForeachLocalities);
-
-            string respStr = str.ToString();
-
-            return Content(respStr);
-        }
-
-        // <summary>
-        /// Получить Максимальный бюджета
-        /// </summary>
-        [HttpGet("GetMaxBudget")]
-        public IActionResult GetMaxBudget()
-        {
-            var ForeachLocalities = _repo.GetBudgets();
-
-            var str = Statistics.Maximum(ForeachLocalities);
-
-            string respStr = str.ToString();
-
-            return Content(respStr);
-        }
-
-        // <summary>
-        /// Получить минимум бюджета
-        /// </summary>
-        [HttpGet("GetMinBudget")]
-        public IActionResult GetMinBudget()
-        {
-            var ForeachLocalities = _repo.GetBudgets();
-
-            var str = Statistics.Minimum(ForeachLocalities);
-
-            string respStr = str.ToString();
-
-            return Content(respStr);
+            return Ok(Budgets); // Возвращаем население как JSON
         }
     }
 }

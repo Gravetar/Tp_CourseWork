@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Runtime;
+using System.Text;
 using Tp_CourseWork.GofComand;
 using Tp_CourseWork.Models;
 using Tp_CourseWork.Models.ViewModels;
@@ -12,6 +14,31 @@ namespace Tp_CourseWork.Controllers
 {
     public class HomeController : Controller
     {
+        private List<Statistic> ConvertJArrayToStatistics(JArray array)
+        {
+            var statisticsList = new List<Statistic>();
+
+            foreach (var item in array)
+            {
+                var category = item["Name"]?.ToString();
+                var median = item["Median"]?.Value<double>() ?? 0;
+                var mean = item["Mean"]?.Value<double>() ?? 0;
+                var max = item["Max"]?.Value<double>() ?? 0;
+                var min = item["Min"]?.Value<double>() ?? 0;
+
+                statisticsList.Add(new Statistic
+                {
+                    Name = category,
+                    Median = median,
+                    Mean = mean,
+                    Max = max,
+                    Min = min
+                });
+            }
+
+            return statisticsList;
+        }
+
         //Hosted web API REST Service base url
         string Baseurl = "https://localhost:49105/";
         public async Task<ActionResult> Index()
@@ -85,25 +112,91 @@ namespace Tp_CourseWork.Controllers
             }
         }
 
+        //public async Task<ActionResult> StatisticFromApi()
+        //{
+        //    List<Statistic> StInfo = new();
+        //    using (var client = new HttpClient())
+        //    {
+        //        OnClient(client);
+        //        HttpResponseMessage Res = await client.GetAsync("api/GetStatistic");
+        //        //Checking the response is successful or not which is sent using HttpClient
+        //        if (Res.IsSuccessStatusCode)
+        //        {
+        //            //Storing the response details recieved from web api
+        //            var StResponse = Res.Content.ReadAsStringAsync().Result;
+        //            //Deserializing the response recieved from web api and storing into the Localities list
+        //            StInfo = JsonConvert.DeserializeObject<List<Statistic>>(StResponse);
+        //        }
+        //        if (StInfo != null)
+        //        {
+        //            return PartialView("Statistic", StInfo);
+        //        }
+        //        return View("Index");
+        //    }
+        //}
+
         public async Task<ActionResult> Statistic()
         {
             List<Statistic> StInfo = new();
+
             using (var client = new HttpClient())
             {
-                OnClient(client);
-                HttpResponseMessage Res = await client.GetAsync("api/GetStatistic");
-                //Checking the response is successful or not which is sent using HttpClient
-                if (Res.IsSuccessStatusCode)
+                string apiUrlbudget = Baseurl + "api/GetBudgets";
+                string apiUrlresidants = Baseurl + "api/GetResidants";
+
+                // Отправляем GET-запрос к API для получения бюджетов и населения
+                HttpResponseMessage budgetResponse = await client.GetAsync(apiUrlbudget);
+                HttpResponseMessage residantsResponse = await client.GetAsync(apiUrlresidants);
+
+                if (budgetResponse.IsSuccessStatusCode && residantsResponse.IsSuccessStatusCode)
                 {
-                    //Storing the response details recieved from web api
-                    var StResponse = Res.Content.ReadAsStringAsync().Result;
-                    //Deserializing the response recieved from web api and storing into the Localities list
-                    StInfo = JsonConvert.DeserializeObject<List<Statistic>>(StResponse);
+                    // Получение ответа в виде строки
+                    var budgetResponseString = await budgetResponse.Content.ReadAsStringAsync();
+                    var residantsResponseString = await residantsResponse.Content.ReadAsStringAsync();
+
+                    // Десериализация ответа
+                    double[] Budgets = JsonConvert.DeserializeObject<double[]>(budgetResponseString);
+                    double[] Residants = JsonConvert.DeserializeObject<double[]>(residantsResponseString);
+
+                    // URL облачной функции в Yandex Cloud Function
+                    string functionUrl = "https://functions.yandexcloud.net/d4eekil0t8rto31d5eov";
+
+                    JObject jsonObject = new JObject(
+                        new JProperty("Budgets", new JArray(Budgets)),
+                        new JProperty("Residants", new JArray(Residants))
+                    );
+
+                    // Content для POST-запроса
+                    HttpContent content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
+
+                    // POST-запрос с данными в теле
+                    HttpResponseMessage Res = await client.PostAsync(functionUrl, content);
+
+                    // Проверка успешности ответа
+                    if (Res.IsSuccessStatusCode)
+                    {
+                        // Получение ответа в виде строки
+                        var StResponse = await Res.Content.ReadAsStringAsync();
+
+                        // Десериализация ответа
+                        var responseJson = JObject.Parse(StResponse);
+
+                        // Извлечение resultBudgets и resultResidants
+                        if (responseJson.TryGetValue("resultBudgets", out var result1Token) && result1Token is JArray resultBudgetsArray &&
+                            responseJson.TryGetValue("resultResidants", out var result2Token) && result2Token is JArray resultResidantsArray)
+                        {
+                            // Преобразование данных result1 и result2 в элементы Statistic и добавление их в StInfo
+                            StInfo.AddRange(ConvertJArrayToStatistics(resultBudgetsArray));
+                            StInfo.AddRange(ConvertJArrayToStatistics(resultResidantsArray));
+                        }
+                    }
+
+                    if (StInfo != null)
+                    {
+                        return PartialView("Statistic", StInfo);
+                    }
                 }
-                if (StInfo != null)
-                {
-                    return PartialView("Statistic", StInfo);
-                }
+
                 return View("Index");
             }
         }
