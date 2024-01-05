@@ -4,27 +4,27 @@
     {
         @Html.AntiForgeryToken()
         <div>
-            @Html.LabelFor(model => model.Name)
+            Название
             <p>@Html.EditorFor(model => model.Name)</p>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.Type)
+            Тип
             <p>@Html.EditorFor(model => model.Type)</p>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.NumberResidantsTh)
+            Население, тыс.чел
             <p>@Html.EditorFor(model => model.NumberResidantsTh)</p>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.BudgetMlrd)
+            Бюджет, млрд. руб.
             <p>@Html.EditorFor(model => model.BudgetMlrd)</p>
         </div>
 
         <div>
-            @Html.LabelFor(model => model.Mayor)
+            Мер
             <p>@Html.EditorFor(model => model.Mayor)</p>
         </div>
         <p><input type="submit" value="Добавить" /></p>

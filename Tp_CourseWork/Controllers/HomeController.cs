@@ -13,7 +13,7 @@ namespace Tp_CourseWork.Controllers
     public class HomeController : Controller
     {
         //Hosted web API REST Service base url
-        string Baseurl = "https://localhost:7105/";
+        string Baseurl = "https://localhost:49105/";
         public async Task<ActionResult> Index()
         {
 
