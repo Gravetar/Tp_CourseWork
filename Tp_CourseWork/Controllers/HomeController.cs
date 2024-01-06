@@ -358,9 +358,7 @@ namespace Tp_CourseWork.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //Sending request to find web api REST service resource GetLocalities using HttpClient
 
-                JsonContent content = JsonContent.Create(id);
-
-                HttpResponseMessage Res = await client.PostAsync("api/DeleteLocality", content);
+                HttpResponseMessage Res = await client.DeleteAsync("api/DeleteLocality/" + id.ToString());
                 //Checking the response is successful or not which is sent using HttpClient
 
                 return RedirectToAction("Index");

@@ -106,8 +106,22 @@ namespace Tp_CourseWork.Controllers
         }
 
         /// <summary>
-        /// Создать локацию
+        /// Добавить запись локации
         /// </summary>
+        /// <remarks>
+        /// Пример:
+        /// 
+        ///     POST api/CreateLocality
+        ///{
+        ///  "id": 0,
+        ///  "name": "Имя Локации",
+        ///  "type": "City",
+        ///  "numberResidantsTh": 1000,
+        ///  "budgetMlrd": 1000,
+        ///  "mayor": "Сергей Семёнович Собянин"
+        ///}
+        /// </remarks>
+        /// <param name="locality">Данные новой записи локации</param>
         [HttpPost("CreateLocality")]
         public IActionResult CreateLocality([FromBody] Locality locality)
         {
@@ -127,9 +141,23 @@ namespace Tp_CourseWork.Controllers
         }
 
         /// <summary>
-        /// Редактировать локацию
+        /// Изменить запись локации
         /// </summary>
-        [HttpPost("UpdateLocality")]
+        /// <remarks>
+        /// Пример:
+        /// 
+        ///     POST api/UpdateLocality
+        ///{
+        ///  "id": 0,
+        ///  "name": "Имя Локации",
+        ///  "type": "City",
+        ///  "numberResidantsTh": 1000,
+        ///  "budgetMlrd": 1000,
+        ///  "mayor": "Сергей Семёнович Собянин"
+        ///}
+        /// </remarks>
+        /// <param name="locality">Данные изменяемой записи локации</param>
+        [HttpPut("UpdateLocality")]
         public IActionResult UpdateLocality([FromBody] Locality locality)
         {
 
@@ -141,10 +169,11 @@ namespace Tp_CourseWork.Controllers
         }
 
         /// <summary>
-        /// Удалить локацию по айди
+        /// Удалить локацию
         /// </summary>
-        [HttpPost("DeleteLocality")]
-        public IActionResult DeleteLocality([FromBody] int id)
+        /// <param name="id">Id удаляемой записи локации</param>
+        [HttpDelete("DeleteLocality/{id}")]
+        public IActionResult DeleteLocality(int id)
         {
             try
             {
@@ -161,7 +190,7 @@ namespace Tp_CourseWork.Controllers
         }
 
         /// <summary>
-        /// Получить все локации по фио мера
+        /// Получить все локации по ФИО мера
         /// </summary>
         [HttpGet("GetLocalitiesByMayor")]
         public IActionResult GetLocalitiesByMajor([FromQuery(Name = "mayor")] string mayor)
